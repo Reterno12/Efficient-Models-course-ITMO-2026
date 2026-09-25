@@ -1,0 +1,20 @@
+[project]
+name = "efficient-models-course-itmo-2026"
+version = "0.1.0"
+description = "Development environment for the ITMO Efficient Models course"
+requires-python = ">=3.10,<3.15"
+dependencies = [
+    "ipykernel>=6.29,<7",
+    "jupyterlab>=4.2,<5",
+    "matplotlib>=3.8,<4",
+    "nvidia-ml-py>=13,<14",
+    "numpy>=1.26,<3",
+    "pandas>=2.2,<3",
+    "scipy>=1.14,<2",
+    "torch==2.10.0",
+    "torchvision==0.25.0",
+    "tqdm>=4.66,<5",
+]
+
+[tool.uv]
+package = false

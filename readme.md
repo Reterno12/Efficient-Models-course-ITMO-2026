@@ -1,4 +1,20 @@
-# [Efficient-Models-course-ITMO-2026](https://github.com/On-Point-RND/Efficient-Models-course-ITMO-2025)
+# [Efficient-Models-course-ITMO-2026](https://github.com/Reterno12/Efficient-Models-course-ITMO-2026)
+
+## Среда разработки
+
+Для локальных практик нужен Python 3.13, [uv](https://docs.astral.sh/uv/) и GPU NVIDIA с рабочим драйвером для CUDA. Из корня репозитория:
+
+```bash
+uv sync --frozen
+uv run --frozen python -m ipykernel install --user --name efficient-models-2026 --display-name "Efficient Models 2026"
+uv run --frozen jupyter lab
+```
+
+В Jupyter выберите ядро **Efficient Models 2026**. `uv sync --frozen` устанавливает версии из `uv.lock` в локальную `.venv`. Для командной строки можно использовать `uv run --frozen python ...` или активировать среду командой `source .venv/bin/activate`.
+
+Зависимости взяты из `week_one/seminar/seminar.ipynb` и `week_one/seminar/model.py`: PyTorch, torchvision и tqdm. Для ДЗ-1 добавлены NumPy, pandas, SciPy и Matplotlib для расчётов, калибровки и графиков, а также `nvidia-ml-py` для чтения мощности GPU через NVML. JupyterLab и ipykernel нужны для ноутбуков. Выполнение существующего семинара и измерений ДЗ-1 требует CUDA GPU; саму среду можно установить и без него.
+
+Датасет FashionMNIST скачивается при первом запуске семинара в каталог `mnist/`. Трассы профилировщика `trace*.json`, датасет и `.venv` исключены из Git.
 
 ## Предыдущие итерации курса
 
