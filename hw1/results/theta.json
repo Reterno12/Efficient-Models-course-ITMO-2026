@@ -1,0 +1,25 @@
+{
+  "latency": {
+    "launch_seconds": 0.000642818669137883,
+    "compute_flops_per_s": 2998016379344.5254,
+    "memory_bytes_per_s": 95519648576.12013
+  },
+  "energy": {
+    "latency": {
+      "launch_seconds": 0.000642818669137883,
+      "compute_flops_per_s": 2998016379344.5254,
+      "memory_bytes_per_s": 95519648576.12013
+    },
+    "idle_watts": 26.95,
+    "fixed_joules": 0.01777189026667646,
+    "joules_per_gflop": 0.015971517916317124,
+    "joules_per_gbyte": 0.0
+  },
+  "software": {
+    "python": "3.13.15",
+    "torch": "2.11.0+cu128",
+    "cuda": "12.8"
+  },
+  "gpu_name": "Tesla T4",
+  "grid_seed": 2026
+}
