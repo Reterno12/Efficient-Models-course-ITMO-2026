@@ -25,8 +25,14 @@ class CoreTests(unittest.TestCase):
             self.assertTrue(np.all(np.isfinite(result)))
             self.assertTrue(np.all(result > 0))
         self.assertTrue(np.isclose(flops(32, 2), 2 * flops(32, 1)))
-        self.assertTrue(np.isclose(memory(32, 2) - model_bytes(),
-                                   2 * (memory(32, 1) - model_bytes())))
+        self.assertEqual(memory(32, 2) - memory(32, 1), 76 * 32**2)
+
+    def test_memory_includes_rounded_model_and_persistent_blas_workspace(self):
+        # Hand calculation for S=32, B=1, native allocator / pre-Hopper CUDA:
+        # rounded model 4,187,136 + documented cuBLAS 8,519,680
+        # + input 12,288 + two BN1 activations 2*32,768.
+        self.assertEqual(memory(32, 1), 12_784_640)
+        self.assertEqual(memory(32, 2), 12_862_464)
 
     def test_predictions_accept_arrays(self):
         theta = {"launch_seconds": 1e-4, "compute_flops_per_s": 1e12,

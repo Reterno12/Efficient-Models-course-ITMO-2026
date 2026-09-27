@@ -1,0 +1,18 @@
+{
+  "source_archive": "hw1_results_20260927_090211_ab1cd7d2.zip",
+  "source_archive_sha256": "e9413ea5c0a0ef7b96d925bc0b48e1a781ca8aa33ed67cfc8305c94ea8548f09",
+  "run_id": "20260927_090211_ab1cd7d2",
+  "measurements_sha256": "93a08a7db190788fb552b5dfeea5708e30db03b42628e5f0e93ff17ea02a7dd2",
+  "original_results": "source_run/",
+  "unchanged_from_archive": [
+    "measurements.csv",
+    "theta.latency",
+    "theta.energy",
+    "theta.software"
+  ],
+  "processing": "Recomputed errors and plots using version-2 equations; no latency/energy refit.",
+  "archive_memory_equation": "Raw model bytes + 76*B*S**2 (old live-tensor estimate)",
+  "current_memory_equation": "Rounded model bytes + default pre-Hopper cuBLAS workspace + 76*B*S**2",
+  "previous_v2_source_archive": "hw1_results-v2.zip",
+  "version_1_results": "../results_v1/"
+}

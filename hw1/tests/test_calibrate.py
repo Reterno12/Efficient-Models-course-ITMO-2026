@@ -30,6 +30,40 @@ class CalibrationTests(unittest.TestCase):
         np.testing.assert_allclose(energy(training.S, training.B, theta_e),
                                    joules[~df.is_validation], rtol=0.02)
 
+    def test_two_compute_regimes_generalize_without_validation_leakage(self):
+        s = np.repeat([32, 64, 128, 256, 512], 9)
+        b = np.tile([1, 2, 4, 8, 16, 32, 64, 128, 256], 5)
+        from hw1.equations import flops, bytes_moved
+        times = 0.0003 + np.maximum(
+            flops(s, b) / np.where(b > 64, 1e12, 3e12),
+            bytes_moved(s, b) / 1e11)
+        df = pd.DataFrame(dict(S=s, B=b, status="ok", latency_s=times,
+                               is_validation=np.arange(len(s)) % 5 == 0))
+        fitted = fit_latency(df)
+        np.testing.assert_allclose(latency(s, b, fitted), times, rtol=0.03)
+        poisoned = df.copy()
+        poisoned.loc[poisoned.is_validation, ["S", "B", "latency_s"]] *= 100
+        self.assertEqual(fitted, fit_latency(poisoned))
+
+    def test_energy_recovers_active_power(self):
+        from hw1.equations import flops, bytes_moved
+        s = np.repeat([32, 64, 128, 256, 512], 9)
+        b = np.tile([1, 2, 4, 8, 16, 32, 64, 128, 256], 5)
+        theta = dict(launch_seconds=0.0003, compute_flops_per_s=3e12,
+                     memory_bytes_per_s=1e11, batch_threshold=64,
+                     large_batch_compute_flops_per_s=1e12)
+        times = 0.0003 + np.maximum(flops(s, b) / np.where(b > 64, 1e12, 3e12),
+                                    bytes_moved(s, b) / 1e11)
+        joules = 60 * times
+        df = pd.DataFrame(dict(S=s, B=b, status="ok", latency_s=times,
+                               energy_j=joules, idle_watts=20.,
+                               is_validation=np.arange(len(s)) % 5 == 0))
+        fitted = fit_energy(df, theta)
+        np.testing.assert_allclose(energy(s, b, fitted), joules, rtol=0.02)
+        poisoned = df.copy()
+        poisoned.loc[poisoned.is_validation, ["energy_j", "idle_watts"]] *= 100
+        self.assertEqual(fitted, fit_energy(poisoned, theta))
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,0 +1,64 @@
+{
+  "train": {
+    "FLOPs": {
+      "n": 106,
+      "median_ape_percent": 0.24837163770424583,
+      "mean_ape_percent": 0.24799567553799107
+    },
+    "Peak memory": {
+      "n": 106,
+      "median_ape_percent": 17.091610585167444,
+      "mean_ape_percent": 19.110992017251778
+    },
+    "Latency": {
+      "n": 106,
+      "median_ape_percent": 9.489294501722682,
+      "mean_ape_percent": 12.422865273747437
+    },
+    "Energy": {
+      "n": 106,
+      "median_ape_percent": 7.225363907105879,
+      "mean_ape_percent": 9.638496204990581
+    }
+  },
+  "validation": {
+    "FLOPs": {
+      "n": 26,
+      "median_ape_percent": 0.24838277059443994,
+      "mean_ape_percent": 0.2481264314975837
+    },
+    "Peak memory": {
+      "n": 26,
+      "median_ape_percent": 22.027265518945896,
+      "mean_ape_percent": 21.89535292270074
+    },
+    "Latency": {
+      "n": 26,
+      "median_ape_percent": 14.631433262479153,
+      "mean_ape_percent": 16.214083916804604
+    },
+    "Energy": {
+      "n": 26,
+      "median_ape_percent": 6.890245628595839,
+      "mean_ape_percent": 11.130499955167288
+    }
+  },
+  "memory_comparison_validation": {
+    "live_tensors_only": {
+      "n": 26,
+      "median_ape_percent": 28.90322230405938,
+      "mean_ape_percent": 35.754558589744256
+    },
+    "with_runtime_workspace": {
+      "n": 26,
+      "median_ape_percent": 22.027265518945896,
+      "mean_ape_percent": 21.89535292270074
+    }
+  },
+  "oom": {
+    "actual": 0,
+    "predicted": 0,
+    "false_positive": 0,
+    "false_negative": 0
+  }
+}

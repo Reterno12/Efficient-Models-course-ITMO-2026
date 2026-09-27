@@ -6,3 +6,12 @@ mnist/
 **/mnist/
 trace*.json
 **/trace*.json
+
+# Imported/downloaded HW1 archives and intermediate GPU runs
+/hw1_results*.zip
+/hw1_version_2_results*.zip
+/hw1/results_v2/runs/
+
+# Local explanatory drafts; excluded from the submitted homework
+/hw1/handwritten_v2_guide.pdf
+/hw1/handwritten_v2_guide.tex

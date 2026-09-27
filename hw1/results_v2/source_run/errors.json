@@ -1,0 +1,52 @@
+{
+  "train": {
+    "FLOPs": {
+      "n": 106,
+      "median_ape_percent": 0.24837163770424583,
+      "mean_ape_percent": 0.24799567553799107
+    },
+    "Peak memory": {
+      "n": 106,
+      "median_ape_percent": 28.428007844568093,
+      "mean_ape_percent": 36.809550340846386
+    },
+    "Latency": {
+      "n": 106,
+      "median_ape_percent": 9.489294501721716,
+      "mean_ape_percent": 12.422865273747037
+    },
+    "Energy": {
+      "n": 106,
+      "median_ape_percent": 7.225363907105915,
+      "mean_ape_percent": 9.638496204990574
+    }
+  },
+  "validation": {
+    "FLOPs": {
+      "n": 26,
+      "median_ape_percent": 0.24838277059443994,
+      "mean_ape_percent": 0.2481264314975837
+    },
+    "Peak memory": {
+      "n": 26,
+      "median_ape_percent": 28.90322230405938,
+      "mean_ape_percent": 35.754558589744256
+    },
+    "Latency": {
+      "n": 26,
+      "median_ape_percent": 14.631433262478787,
+      "mean_ape_percent": 16.214083916803933
+    },
+    "Energy": {
+      "n": 26,
+      "median_ape_percent": 6.890245628595839,
+      "mean_ape_percent": 11.130499955167283
+    }
+  },
+  "oom": {
+    "actual": 0,
+    "predicted": 0,
+    "false_positive": 0,
+    "false_negative": 0
+  }
+}
