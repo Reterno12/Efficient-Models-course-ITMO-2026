@@ -48,14 +48,10 @@ hw1/
 ├── versions_comparison.json # проверенное сравнение v1 и v2
 ├── derivations_v2.md        # актуальный вывод формул и допущения
 ├── hw1_handwritten.pdf      # исходный рукописный вывод v1
-├── hw1_handwritten_v2.pdf   # рукописный вывод v2
-├── handwritten_v2_guide.pdf # подробные печатные пояснения
-└── handwritten_v2_guide.tex # исходник печатных пояснений
+└── hw1_handwritten_v2.pdf   # рукописный вывод v2
 ```
 
-Подробная заготовка для переписывания от руки: [handwritten_v2_guide.pdf](handwritten_v2_guide.pdf), редактируемый [LaTeX-исходник](handwritten_v2_guide.tex). В ней разобраны все слои, полные суммы FLOPs и traffic, пик памяти, калибровка и численные примеры.
-
-Рукописные выводы: [версия 1](hw1_handwritten.pdf) и [версия 2](hw1_handwritten_v2.pdf). В v2 разобраны модель памяти с округлением allocations и workspace cuBLAS, кусочная `P(B)`, трафик `Q` и энергетический член `P_active·T`. Подробные послойные расчёты и численные примеры приведены в печатной заготовке выше; формулы также доступны в notebook v2 и [derivations_v2.md](derivations_v2.md).
+Рукописные выводы: [версия 1](hw1_handwritten.pdf) и [версия 2](hw1_handwritten_v2.pdf). В v2 разобраны модель памяти с округлением allocations и workspace cuBLAS, кусочная `P(B)`, трафик `Q` и энергетический член `P_active·T`. Формулы и допущения также доступны в notebook v2 и [derivations_v2.md](derivations_v2.md).
 
 ## Модель, соглашения и измерения
 
