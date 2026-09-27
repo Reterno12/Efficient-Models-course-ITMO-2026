@@ -1,0 +1,53 @@
+{
+  "note": "Same grid and split, different GPU measurement runs; each version uses its own equations and fitted parameters.",
+  "v1": {
+    "run_id": null,
+    "validation": {
+      "FLOPs": {
+        "n": 26,
+        "median_ape_percent": 0.24838277059443994,
+        "mean_ape_percent": 0.2481264314975837
+      },
+      "Peak memory": {
+        "n": 26,
+        "median_ape_percent": 28.90322230405938,
+        "mean_ape_percent": 35.754558589744256
+      },
+      "Latency": {
+        "n": 26,
+        "median_ape_percent": 27.828302255426728,
+        "mean_ape_percent": 28.257511116823025
+      },
+      "Energy": {
+        "n": 26,
+        "median_ape_percent": 21.00247409917062,
+        "mean_ape_percent": 24.092143091783214
+      }
+    }
+  },
+  "v2": {
+    "run_id": "20260927_090211_ab1cd7d2",
+    "validation": {
+      "FLOPs": {
+        "n": 26,
+        "median_ape_percent": 0.24838277059443994,
+        "mean_ape_percent": 0.2481264314975837
+      },
+      "Peak memory": {
+        "n": 26,
+        "median_ape_percent": 22.027265518945896,
+        "mean_ape_percent": 21.89535292270074
+      },
+      "Latency": {
+        "n": 26,
+        "median_ape_percent": 14.631433262479153,
+        "mean_ape_percent": 16.214083916804604
+      },
+      "Energy": {
+        "n": 26,
+        "median_ape_percent": 6.890245628595839,
+        "mean_ape_percent": 11.130499955167288
+      }
+    }
+  }
+}

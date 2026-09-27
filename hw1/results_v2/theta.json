@@ -1,0 +1,143 @@
+{
+  "latency": {
+    "launch_seconds": 0.0007322802807188041,
+    "compute_flops_per_s": 3715082460422.9517,
+    "memory_bytes_per_s": 119999335980.35297,
+    "batch_threshold": 64,
+    "large_batch_compute_flops_per_s": 1939449651515.796,
+    "selection": {
+      "method": "5-fold train-only CV; mean APE; 5% relative improvement required",
+      "seed": 2026,
+      "n_train": 106,
+      "candidates": [
+        {
+          "batch_threshold": null,
+          "n": 106,
+          "median_ape_percent": 27.735338831701878,
+          "mean_ape_percent": 25.353755960569305
+        },
+        {
+          "batch_threshold": 4,
+          "n": 106,
+          "median_ape_percent": 24.555385551780077,
+          "mean_ape_percent": 23.467717005814265
+        },
+        {
+          "batch_threshold": 8,
+          "n": 106,
+          "median_ape_percent": 22.79478300040607,
+          "mean_ape_percent": 23.103920118984078
+        },
+        {
+          "batch_threshold": 16,
+          "n": 106,
+          "median_ape_percent": 20.590126586247365,
+          "mean_ape_percent": 21.744550178736635
+        },
+        {
+          "batch_threshold": 32,
+          "n": 106,
+          "median_ape_percent": 15.745777956733468,
+          "mean_ape_percent": 18.34068059125301
+        },
+        {
+          "batch_threshold": 64,
+          "n": 106,
+          "median_ape_percent": 10.261370402090119,
+          "mean_ape_percent": 12.92607120132887
+        },
+        {
+          "batch_threshold": 95,
+          "n": 106,
+          "median_ape_percent": 12.201359227760914,
+          "mean_ape_percent": 15.861051780898727
+        },
+        {
+          "batch_threshold": 98,
+          "n": 106,
+          "median_ape_percent": 13.3594849335515,
+          "mean_ape_percent": 18.09091553155377
+        }
+      ]
+    }
+  },
+  "energy": {
+    "latency": {
+      "launch_seconds": 0.0007322802807188041,
+      "compute_flops_per_s": 3715082460422.9517,
+      "memory_bytes_per_s": 119999335980.35297,
+      "batch_threshold": 64,
+      "large_batch_compute_flops_per_s": 1939449651515.796,
+      "selection": {
+        "method": "5-fold train-only CV; mean APE; 5% relative improvement required",
+        "seed": 2026,
+        "n_train": 106,
+        "candidates": [
+          {
+            "batch_threshold": null,
+            "n": 106,
+            "median_ape_percent": 27.735338831701878,
+            "mean_ape_percent": 25.353755960569305
+          },
+          {
+            "batch_threshold": 4,
+            "n": 106,
+            "median_ape_percent": 24.555385551780077,
+            "mean_ape_percent": 23.467717005814265
+          },
+          {
+            "batch_threshold": 8,
+            "n": 106,
+            "median_ape_percent": 22.79478300040607,
+            "mean_ape_percent": 23.103920118984078
+          },
+          {
+            "batch_threshold": 16,
+            "n": 106,
+            "median_ape_percent": 20.590126586247365,
+            "mean_ape_percent": 21.744550178736635
+          },
+          {
+            "batch_threshold": 32,
+            "n": 106,
+            "median_ape_percent": 15.745777956733468,
+            "mean_ape_percent": 18.34068059125301
+          },
+          {
+            "batch_threshold": 64,
+            "n": 106,
+            "median_ape_percent": 10.261370402090119,
+            "mean_ape_percent": 12.92607120132887
+          },
+          {
+            "batch_threshold": 95,
+            "n": 106,
+            "median_ape_percent": 12.201359227760914,
+            "mean_ape_percent": 15.861051780898727
+          },
+          {
+            "batch_threshold": 98,
+            "n": 106,
+            "median_ape_percent": 13.3594849335515,
+            "mean_ape_percent": 18.09091553155377
+          }
+        ]
+      }
+    },
+    "idle_watts": 30.97,
+    "active_watts": 27.782548346307156,
+    "fixed_joules": 0.0,
+    "joules_per_gflop": 0.004950137853840014,
+    "joules_per_gbyte": 0.0
+  },
+  "software": {
+    "python": "3.13.15",
+    "torch": "2.11.0+cu128",
+    "cuda": "12.8"
+  },
+  "gpu_name": "Tesla T4",
+  "grid_seed": 2026,
+  "run_id": "20260927_090211_ab1cd7d2",
+  "gpu_memory_bytes": 15637086208,
+  "memory_model": "live tensors + 512-byte model allocation rounding + default pre-Hopper cuBLAS workspace; no fit"
+}
