@@ -2,8 +2,11 @@
 
 Assumptions: NCHW FP32, eval+inference_mode, Conv-BN-ReLU after each conv,
 no residuals, inplace ReLU. Arithmetic counts floating add/multiply/divide;
-comparisons (ReLU/MaxPool) are not FLOPs. Memory is a lower-bound live-tensor
-estimate; cuDNN workspaces, allocator rounding and CUDA context are excluded.
+comparisons (ReLU/MaxPool) are not FLOPs. Memory includes live tensors,
+512-byte native-allocator rounding of model storage and one persistent
+pre-Hopper cuBLAS workspace after warmup. Additional cuDNN/cuBLASLt
+workspaces and allocator block reuse are excluded; CUDA context is not
+part of torch.cuda.max_memory_allocated().
 """
 import numpy as np
 
@@ -40,15 +43,42 @@ def flops(image_size, batch):
     return total
 
 
-def memory(image_size, batch):
-    """Predicted peak bytes: weights + persistent input + two conv1 activations.
+def model_allocated_bytes():
+    """Model storage with PyTorch native allocator's 512-byte granularity.
 
-The input x remains referenced by the caller. BN1 holds both conv1 output
-and BN output; both contain B*32*(S/2)^2 float32 values. This is the
-largest live pair in this sequential network. It omits temporary workspaces.
-"""
+    Each parameter/buffer has its own allocation, including six 8-byte BN
+    counters. This is derived from tensor shapes, not fitted to measurements.
+    """
+    sizes = []
+    for ci, co, k, _ in CONVS:
+        sizes.extend([4 * ci * co * k * k, *([4 * co] * 4), 8])
+    sizes.extend([4 * 512 * 256, 4 * 256, 4 * 256 * 100, 4 * 100])
+    return sum(512 * ((size + 511) // 512) for size in sizes)
+
+
+def memory_live_tensors(image_size, batch):
+    """Original ideal tensor-storage estimate, retained as a comparison."""
     s, b = _sb(image_size, batch)
-    return model_bytes() + 4 * b * (3 * s**2 + 2 * 32 * (s / 2)**2)
+    return model_bytes() + 76 * b * s**2
+
+
+def memory(image_size, batch):
+    """Peak estimate for warmed-up T4, FP32, one stream, native allocator.
+
+    M = W_alloc + W_cuBLAS + input + two BN1 activations.
+    W_cuBLAS = (2*4096 + 8*16) KiB is the PyTorch pre-Hopper default,
+    allocated persistently through the CUDA caching allocator after Linear.
+    Source: pytorch v2.11.0/aten/src/ATen/cuda/CublasHandlePool.cpp,
+    parseChosenWorkspaceSize()/getNewWorkspace(). It is NOT a fitted offset.
+
+    Assumes no CUBLAS_WORKSPACE_CONFIG override, no extra live CUDA tensors,
+    and S a multiple of 16 (input/BN1 sizes are already multiples of 512).
+    cuDNN scratch space and additional cuBLASLt pools remain unmodelled;
+    the prediction is a baseline, not an exact peak or an OOM guarantee.
+    """
+    s, b = _sb(image_size, batch)
+    cublas_workspace = (2 * 4096 + 8 * 16) * 1024
+    return model_allocated_bytes() + cublas_workspace + 76 * b * s**2
 
 
 def bytes_moved(image_size, batch):
@@ -77,16 +107,32 @@ excluded. Conv weights are counted once per forward, not once per pixel.
     return 4 * total_elements
 
 
+def latency_terms(image_size, batch, theta):
+    """Launch, memory and compute times; optional train-selected batch regime.
+
+    Two effective compute rates approximate a change of convolution execution
+    regime. They are empirical rates, not GPU hardware peak specifications.
+    Old three-parameter dictionaries retain their original interpretation.
+    """
+    s, b = _sb(image_size, batch)
+    rate = theta["compute_flops_per_s"]
+    if theta.get("batch_threshold") is not None:
+        rate = np.where(b > theta["batch_threshold"],
+                        theta["large_batch_compute_flops_per_s"], rate)
+    return (np.full(s.shape, theta["launch_seconds"]),
+            bytes_moved(s, b) / theta["memory_bytes_per_s"],
+            flops(s, b) / rate)
+
+
 def latency(image_size, batch, theta):
-    """Roofline-style seconds: launch overhead + max(compute, memory time)."""
-    return (theta["launch_seconds"] + np.maximum(
-        flops(image_size, batch) / theta["compute_flops_per_s"],
-        bytes_moved(image_size, batch) / theta["memory_bytes_per_s"]))
+    """Seconds: t0 + max(F/P(B), Q/R), with a train-calibrated P(B)."""
+    launch, traffic, compute = latency_terms(image_size, batch, theta)
+    return launch + np.maximum(compute, traffic)
 
 
 def energy(image_size, batch, theta_energy):
-    """Whole-GPU joules: idle baseline over predicted time + dynamic terms."""
-    return (theta_energy["idle_watts"] *
+    """Whole-GPU joules: idle + active power over predicted time + work terms."""
+    return ((theta_energy["idle_watts"] + theta_energy.get("active_watts", 0.0)) *
             latency(image_size, batch, theta_energy["latency"]) +
             theta_energy["fixed_joules"] +
             theta_energy["joules_per_gflop"] * flops(image_size, batch) / 1e9 +
